@@ -8,7 +8,10 @@ import (
 )
 
 func main() {
-	bootstrap.InitializeConfig()
+	bootstrap.InitConfig()
+	log := bootstrap.InitLog()
+	log.Info("log init success...")
+
 	engine := gin.Default()
 	engine.GET("/ping", func(context *gin.Context) {
 		context.String(http.StatusOK, "This is an new Application...")

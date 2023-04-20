@@ -8,7 +8,8 @@ import (
 	"os"
 )
 
-func InitializeConfig() *viper.Viper {
+func InitConfig() *viper.Viper {
+	// after integrated Apollo to change the ways of fetch env variable
 	file := "resources/application-dev.yml"
 	// fetch the env variable in production
 	if env := os.Getenv("VIPER-CONFIG"); env != "" {

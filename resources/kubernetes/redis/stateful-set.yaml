@@ -1,0 +1,41 @@
+# Use the dynamic pv with provisioner to create storage base on actual demand
+# avoiding to create pv resource manually and waster of resources
+# preset the provisioner to connect pv serve that needs to pull the yaml to local
+# change the related attribute to match yours. Reference:
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: redis-pv-sts
+
+spec:
+  serviceName: redis-pv-svc
+  volumeClaimTemplates: # claim the PVC
+    - metadata:
+        name: redis-500m-pvc
+      spec:
+        storageClassName: nfs-client # quote the storage class
+        accessModes:
+          - ReadWriteMany
+        resources:
+          requests:
+            storage: 500Mi
+
+  replicas: 2
+  selector:
+    matchLabels:
+      app: redis-pv-sts
+
+  template:
+    metadata:
+      labels:
+        app: redis-pv-sts
+    spec:
+      containers:
+        - image: redis:5-alpine
+          name: redis
+          ports:
+            - containerPort: 6379
+
+          volumeMounts:
+            - name: redis-500m-pvc
+              mountPath: /data

@@ -9,7 +9,7 @@ import (
 )
 
 func InitConfig() *viper.Viper {
-	// after integrated Apollo to change the ways of fetch env variable
+	//change the ways of fetch env variable after integrated Apollo
 	file := "resources/application-dev.yml"
 	// fetch the env variable in production
 	if env := os.Getenv("VIPER-CONFIG"); env != "" {
